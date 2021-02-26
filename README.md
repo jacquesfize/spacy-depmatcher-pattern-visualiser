@@ -1,11 +1,10 @@
 # SDPV : Spacy Dependency Matcher Visualiser
 
-Python module to visualize the graph built from pattern for Space Dependency Matcher
+Python module to visualize pattern using Spacy DependencyMatcher format.
 
 
-## Install
+## 1. Install
 
-In addition to the modules listed in `requirements.txt`, GraphViz have to be installed.
 
 ```shell
 git clone https://github.com/Jacobe2169/spacy-depmatcher-pattern-visualiser.git
@@ -13,7 +12,8 @@ cd spacy-depmatcher-pattern-visualiser
 python setup.py install
 ```
 
-## Use
+**In addition to the modules listed in `requirements.txt`, GraphViz must be installed!**
+## 2. Use
 
 ```python
 from sdpv import draw_pattern
@@ -41,7 +41,7 @@ pattern = [
 ]
 ```
 
-### Draw using matplotlib
+### 2.1 Draw using matplotlib
 
 Matplotlib is set by default, so just run:
 
@@ -57,7 +57,7 @@ draw_pattern(pattern, node_color="grey",node_size=20,figsize=(10,5))
 
 ![image](./examples/matplotlib.png)
 
-### Draw using GraphViz
+### 2.2 Draw using GraphViz
 
 ```python
 draw_pattern(pattern,mode="graphviz")
@@ -65,7 +65,14 @@ draw_pattern(pattern,mode="graphviz")
 
 ![image](./examples/graphviz.png)
 
-### Save the Figure
+#### 2.2.1Display in Jupyter Notebook
+Compared to Matplotlib, you need to set the parameter `show` to `ipynb`
+
+```python
+draw_pattern(pattern,mode="graphviz",show="ipynb")
+```
+
+### 2.3 Save the Figure
 
 Use the `filename` parameter 
 ```python
@@ -73,6 +80,6 @@ draw_pattern(pattern,mode="graphviz",filename="graphviz.png")
 ```
 
 
+## 3. Authors
 
-### 
-draw_pattern(pattern,mode="graphviz",show="ipynb")
+This module was programmed by Jacques Fize.
