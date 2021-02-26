@@ -60,7 +60,7 @@ draw_pattern(pattern, node_color="grey",node_size=20,figsize=(10,5))
 ### Draw using GraphViz
 
 ```python
-draw_pattern(pattern,mode="graphviz",filename="graphviz.png")
+draw_pattern(pattern,mode="graphviz")
 ```
 
 ![image](./examples/graphviz.png)
