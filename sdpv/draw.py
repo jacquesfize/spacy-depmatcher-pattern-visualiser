@@ -1,6 +1,6 @@
 # coding = utf-8
 
-from nxpd import draw
+from .nxpd import draw
 from matplotlib.figure import Figure
 import networkx as nx
 
