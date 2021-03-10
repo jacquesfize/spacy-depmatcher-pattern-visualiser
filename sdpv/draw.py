@@ -1,11 +1,15 @@
 # coding = utf-8
+import copy
+
+from IPython.core.display import HTML
 
 from .nxpd import draw
 from matplotlib.figure import Figure
 import networkx as nx
+import matplotlib.pyplot as plt
+from .template_visjs import vis_js_template
 
-
-def draw_graph_matplotlib(G, nodesize=400, node_color="blue", font_color="white", figsize=(8, 5), filename=None,
+def draw_graph_matplotlib(G, nodesize=400, node_color="blue",node_shape="s", font_color="white", figsize=(8, 5), filename=None,ax=None,
                           **fig_kwargs):
     """
     Draw the pattern graph using matplotlib.
@@ -31,11 +35,14 @@ def draw_graph_matplotlib(G, nodesize=400, node_color="blue", font_color="white"
     Figure
         figure instance
     """
-    fig = Figure(figsize=figsize)
-    ax = fig.add_subplot(1, 1, 1)
+    if not ax :
+        fig = Figure(figsize=figsize)
+        ax = fig.add_subplot(1, 1, 1)
+    else:
+        fig = plt.gcf()
 
-    pos = nx.spring_layout(G, scale=5)
-    nx.draw(G, pos, with_labels=True, node_shape="s",
+    pos = nx.spring_layout(G, k=0.30,iterations=20)
+    nx.draw(G, pos, with_labels=True, node_shape=node_shape,
             node_size=[len(G.nodes[v]["label"]) * nodesize for v in G.nodes()],
             font_color=font_color, labels=nx.get_node_attributes(G, "label"), ax=ax, node_color=node_color,
             arrowsize=20)
@@ -62,3 +69,23 @@ def draw_graph_graphviz(G, filename=None, show=True):
     if filename:
         draw(G, filename=filename)
     return draw(G, show=show)
+
+
+def draw_graph_notebook(G,width=600,height=600,node_distance=200):
+    nodes_str = ""
+    edges_str = ""
+    for node in G.nodes(data=True):
+        nodes_str = nodes_str + "{" + "id: \"{0}\",label: \"{1}\"".format(node[0], node[1]["label"].replace("\n",
+                                                                                                            "\\n")) + "},\n"
+    for edge in G.edges(data=True):
+        edges_str = edges_str + "{" + "from: \"{0}\", to: \"{1}\", label: \"{2}\"".format(edge[0], edge[1],
+                                                                                          edge[2]["label"].replace("\n",
+                                                                                                                   "\\n")) + "},\n"
+    html_ = copy.copy(vis_js_template)
+    html_ = html_.replace("%%nodes", nodes_str.strip(",\n"))
+    html_ = html_.replace("%%edges", edges_str.strip(",\n"))
+    html_ = html_.replace("%%node_distance", str(node_distance))
+    html_ = html_.replace("%%width", str(height))
+    html_ = html_.replace("%%height", str(width))
+    return HTML(html_)
+

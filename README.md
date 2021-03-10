@@ -72,13 +72,21 @@ Compared to Matplotlib, you need to set the parameter `show` to `ipynb`
 draw_pattern(pattern,mode="graphviz",show="ipynb")
 ```
 
-### 2.3 Save the Figure
+### 2.3 Draw using vis.js (only in Notebook)
+
+```python
+draw_pattern(pattern,mode="notebook")
+```
+
+![image](./examples/notebook.png)
+### 2.4 Save the Figure
 
 Use the `filename` parameter 
 ```python
 draw_pattern(pattern,mode="graphviz",filename="graphviz.png")
 ```
 
+**Attention** As of today, the export of vis.js plot is only available in PNG.
 
 ## 3. Authors
 

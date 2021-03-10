@@ -8,5 +8,7 @@ def draw_pattern(pattern, mode="matplotlib", **kwargs):
     G = parse_spacy_pattern(pattern)
     if mode == "matplotlib":
         return draw_graph_matplotlib(G,**kwargs)
-    else:
+    elif mode == "graphviz":
         return draw_graph_graphviz(G, **kwargs)
+    else:
+        return draw_graph_notebook(G,**kwargs)
