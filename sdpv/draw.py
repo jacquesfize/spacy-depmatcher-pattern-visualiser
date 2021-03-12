@@ -71,7 +71,7 @@ def draw_graph_graphviz(G, filename=None, show=True):
     return draw(G, show=show)
 
 
-def draw_graph_notebook(G,width=600,height=600,node_distance=200):
+def draw_graph_notebook(G,height=600,node_distance=200):
     nodes_str = ""
     edges_str = ""
     for node in G.nodes(data=True):
@@ -85,7 +85,6 @@ def draw_graph_notebook(G,width=600,height=600,node_distance=200):
     html_ = html_.replace("%%nodes", nodes_str.strip(",\n"))
     html_ = html_.replace("%%edges", edges_str.strip(",\n"))
     html_ = html_.replace("%%node_distance", str(node_distance))
-    html_ = html_.replace("%%width", str(height))
-    html_ = html_.replace("%%height", str(width))
+    html_ = html_.replace("%%height", str(height))
     return HTML(html_)
 

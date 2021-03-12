@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
+
+    <!-- load the minimalist version of JSONEditor, which doesn't have Ace embedded -->
+    <link href="{{ url_for('static', filename='js/jsoneditor.min.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ url_for('static', filename='js/jsoneditor.min.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<style type="text/css">
+    #jsoneditor {
+        width: 100%;
+        height: 500px;
+    }
+
+    .btn {
+        color: white !important;
+        background-color: rgb(53, 150, 243);
+        padding: 0.5em;
+        border-radius: 5px;
+    }
+
+    .jumbotron-grey {
+        padding: 1em;
+        background-color: #999;
+        border-radius: 5px;
+        color: white;
+        margin: 1em;
+    }
+
+    .jumbotron-white {
+        padding: 1em;
+        background-color: #fff;
+        border: 1px solid #999;
+        border-radius: 5px;
+        color: #666;
+        margin-bottom: 1em;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center">Spacy Dependence Pattern Visualiser!</h1>
+    <div class="">
+        <h2>1. What is it ?</h2>
+        <p>
+            SDPV is Python library designed to visualize Spacy DependencyMatcher Pattern and thus ease your pattern
+            design.
+
+
+        </p>
+
+        <h2>2. Get Started !</h2>
+        <p style="margin-top: 0">First, you must design your pattern. For more information on Spacy's
+            DependencyMatcher check their <a href="https://spacy.io/usage/rule-based-matching#dependencymatcher">documentation</a>.
+            Then, you can use SDPV in two different ways.
+        </p>
+    </div>
+    <h4>2.2 Use SDPV locally</h4>
+    <p>
+        Install the Python library locally (Clone and install it from this <a
+                href="https://github.com/Jacobe2169/spacy-depmatcher-pattern-visualiser">git</a>) and then use it</p>
+        <pre><code class="language-py hljs python">
+from sdpv import draw_pattern
+pattern = [{'RIGHT_ID': 'founded', 'RIGHT_ATTRS': {'ORTH': 'founded'}},{'LEFT_ID': 'founded','REL_OP': '>','RIGHT_ID': 'subject',
+'RIGHT_ATTRS': {'DEP': 'nsubj'}},{'LEFT_ID': 'founded','REL_OP': ';','RIGHT_ID': 'initially','RIGHT_ATTRS': {'ORTH': 'initially'}}]
+draw_pattern(pattern,mode="graphviz")
+            </code></pre>
+    <br>
+    <h4>2.1. Use this website ! </h4>
+    <div class="row">
+        <div class="col-7">
+            <div id="networkdiv">
+                {{ test }}
+            </div>
+
+
+        </div>
+        <div class="col-5">
+            <div id="jsoneditor" width="100%" height="600px"></div>
+            <button class="btn" id="new_graph">Draw !</button>
+        </div>
+    </div>
+    <br>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+    // create the editor
+    const container_editor = document.getElementById('jsoneditor')
+    const options_editor = {
+        modes: ['text', 'code', 'tree', 'form', 'view'],
+        mode: 'code',
+        ace: ace
+    }
+    const json = [
+        {
+            "RIGHT_ID": "founded",
+            "RIGHT_ATTRS": {"ORTH": "founded"}
+        },
+
+        {
+            "LEFT_ID": "founded",
+            "REL_OP": ">",
+            "RIGHT_ID": "subject",
+            "RIGHT_ATTRS": {"DEP": "nsubj"}
+        },
+        {
+            "LEFT_ID": "founded",
+            "REL_OP": ";",
+            "RIGHT_ID": "initially",
+            "RIGHT_ATTRS": {"ORTH": "initially"}
+        }
+    ]
+    const editor = new JSONEditor(container_editor, options_editor, json);
+    // get json
+    document.getElementById('new_graph').onclick = function () {
+        const json = editor.get()
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:5000/graph", //localhost Flask
+            data: JSON.stringify(json),
+            contentType: "application/json",
+            dataType: "html",
+            success: function (html_, statut) {
+                $('#networkdiv').html(html_);
+
+            },
+            complete: function (dd, status) {
+                console.log("complet ::");
+            },
+            error: function (dd, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>

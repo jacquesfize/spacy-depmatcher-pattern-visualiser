@@ -1,7 +1,6 @@
-# SDPV : Spacy Dependency Matcher Visualiser
+# SDPV : Spacy DependencyMatcher Pattern Visualiser
 
-Python module to visualize pattern using Spacy DependencyMatcher format.
-
+SDPV is Python library designed to visualize Spacy DependencyMatcher Pattern and thus ease your pattern design.
 
 ## 1. Install
 
@@ -88,6 +87,15 @@ draw_pattern(pattern,mode="graphviz",filename="graphviz.png")
 
 **Attention** As of today, the export of vis.js plot is only available in PNG.
 
+## Use the GUI
+
+If you wish to use SDPV in a better fashion, you can use the webapp
+
+```shell
+cd webapp
+python server.py
+```
+
 ## 3. Authors
 
-This module was programmed by Jacques Fize.
+This library was programmed by Jacques Fize.

@@ -4,11 +4,13 @@ vis_js_template = """
 <head>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">    <style type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">    
 
+    <style type="text/css">
         #mynetwork {
-            width: %%widthpx !important;
             height: %%heightpx !important;
+            border : solid 1px #999;
+            margin-bottom:0.2em;
         }
         .btn{
             color:white !important;
@@ -19,9 +21,10 @@ vis_js_template = """
     </style>
 </head>
 <body>
-<div style="padding-top:2em">
-<a href="#" class="btn" id="btn-download" download="output.png">Download</a>
+<div style="">
+
 <div id="mynetwork"></div>
+<a href="#" class="btn" id="btn-download" download="output.png">Download PNG</a>
 </div>
 <script type="text/javascript">
     // create an array with nodes
