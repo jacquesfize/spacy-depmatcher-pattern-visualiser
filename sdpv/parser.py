@@ -47,7 +47,7 @@ def parse_spacy_pattern(pattern):
             edge_attr["label"] = edge_attr["label"] + "\n TYPE : " + str(node["RIGHT_ATTRS"]["DEP"])
 
         if node["REL_OP"] in "< << . .* $+ $++".split():
-            G.add_edge(v, u, **edge_attr)
-        elif node["REL_OP"] in "> >> ; ;* $- $--".split():
             G.add_edge(u, v, **edge_attr)
+        elif node["REL_OP"] in "> >> ; ;* $- $--".split():
+            G.add_edge(v, u, **edge_attr)
     return G
